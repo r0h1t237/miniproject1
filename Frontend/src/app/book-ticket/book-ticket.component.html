@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card shadow text-dark mt-4">
+            <div class="card-header">
+                <h4 class="text text-center"> Book with us!!</h4>
+            </div>
+            <!-- BIND THE FORM TO bookingForm instance and invoke bookTicket() method on form submission -->
+            <form [formGroup]="bookingForm" (ngSubmit)="bookTicket()">
+                <div class="card-body">
+                    <!-- 
+                        Create input fields with appropriate labels and form controls and 
+                        render the error messages for incorrect input only if the field is dirty and has invalid data
+                      -->
+                    <div class="form-group">
+                        <!-- FORM CONTROL ==> airlinesId -->
+                        <!-- airlinesId field should remain disabled -->
+                        <label for="airlinesId">Airlines Id </label>
+                        <input type="text" class="form-control" id="airlinesId" formControlName="airlinesId" value="airlinesId" readonly>
+                        <p *ngIf="bookingForm.controls['airlinesId'].errors" class="alert alert-danger">This field is required!</p>                        
+                    </div>
+
+                    <div class="form-group">
+                        <!-- FORM CONTROL ==> customerName -->
+                        <label for="customerName">Customer Name </label>
+                        <input type="text" class="form-control" id="customerName" formControlName="customerName" autofocus>
+
+                        <div id="customerNameError" *ngIf="bookingForm.controls['customerName'].invalid && 
+                        bookingForm.controls['customerName'].touched">
+                            <!-- Message for required error ==> 'Field Required' -->
+                            <!-- Message for pattern error ==> 'Name can have only alphabets and white space' -->
+                            <p *ngIf="bookingForm.controls['customerName'].errors!['required']" class="alert alert-danger">Field Required 
+                                <!-- {{bookingForm.controls['customerName'].errors | json}} -->
+                            </p>
+                            <p *ngIf="bookingForm.controls['customerName'].errors!['pattern']" class="alert alert-danger">Name can have only alphabets and white space
+                                <!-- {{bookingForm.controls['customerName'].errors | json}} -->
+                            </p>
+                            <!-- <p *ngIf="bookingForm.controls['customerName']!.errors.pattern" class="alert alert-danger">Field Required</p> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- FORM CONTROL ==> noOfTickets -->
+                        <label for="noOfTickets">Number of Tickets </label>
+                        <input type="number" class="form-control" id="noOfTickets" formControlName="noOfTickets">
+
+                        <div id="noOfTicketsError" *ngIf="bookingForm.controls['noOfTickets'].invalid && 
+                        bookingForm.controls['noOfTickets'].touched">
+                            <!-- Message for required error ==> 'Field Required' -->
+                            <!-- Message for min error ==> 'Atleast 1 ticket must be booked' -->
+                            <!-- Message for max error ==> 'Maximum 6 tickets can be booked' -->
+                            <p *ngIf="bookingForm.controls['noOfTickets'].errors!['required']" class="alert alert-danger">Field Required</p> 
+                            <p *ngIf="bookingForm.controls['noOfTickets'].errors!['min']" class="alert alert-danger">
+                                Minimum 1 ticket can be booked
+                            </p>
+                            <p *ngIf="bookingForm.controls['noOfTickets'].errors!['max']" class="alert alert-danger">
+                                Maximum 6 tickets can be booked
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- FORM CONTROL ==> dateOfJourney -->
+                        <label for="dateOfJourney">Date of Journey </label>
+                        <input type="date" class="form-control" id="dateOfJourney" formControlName="dateOfJourney">
+
+                        <div id="dateOfJourneyError" *ngIf="bookingForm.controls['dateOfJourney'].invalid && 
+                        bookingForm.controls['dateOfJourney'].touched">
+                            <!-- Message for required error ==> 'Field Required' -->
+                            <!-- Message for dateError error ==> 'Journey Date cant be a past date' -->
+                            <p *ngIf="bookingForm.controls['dateOfJourney'].errors!['required']" class="alert alert-danger">Field Required</p> 
+                            <p *ngIf="bookingForm.controls['dateOfJourney'].errors" class="alert alert-danger">
+                                {{bookingForm.controls['dateOfJourney'].errors!['dateError'].message}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <!-- button should be disabled till bookingForm becomes valid -->
+                        <button class="btn btn-outline-success btn-sm btn-block mr-4" id="confirmBooking" type="submit" [disabled]="bookingForm.invalid">
+                            Confirm Booking
+                        </button>
+                    </div>
+                    <!-- Add the code to redirect to Airlines page on click of Check out other flights? button -->
+                    <button class="btn btn-link" id="checkOutFlights" routerLink="/airlines">
+                        Check out other flights?
+                    </button>
+
+                    <!-- render the success and error messages based on form submission response -->
+                    <div *ngIf="errorMessage" class="text text-danger" id="errorMessage">
+                        <!-- ERROR MESSAGE COMES HERE -->{{errorMessage}}
+                    </div>
+                    <div *ngIf="successMessage" class="text text-success" id="successMessage">
+                        <!-- SUCCESS MESSAGE COMES HERE -->{{successMessage}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
